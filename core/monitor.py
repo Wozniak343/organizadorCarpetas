@@ -90,9 +90,6 @@ class MonitorArchivos:
         self.activo = False
         self.registrar_mensaje("Monitoreo detenido")
 
-    def organizar_existentes(self) -> int:
-        return self.organizador.organizar_carpeta(self.ruta_carpeta)
-
     def _procesar_cola(self) -> None:
         while not self.detener_evento.is_set() or not self.cola_rutas.empty():
             try:

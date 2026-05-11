@@ -34,6 +34,13 @@ class AplicacionAutoFileOrganizer(ctk.CTk):
         self.fondo_principal = ctk.CTkFrame(self, corner_radius=16, fg_color="#111317")
         self.fondo_principal.pack(fill="both", expand=True, padx=14, pady=14)
 
+        self._crear_encabezado()
+        self._crear_panel_estado()
+        self._crear_controles_principales()
+        self._crear_panel_contenido()
+        self._crear_barra_estado()
+
+    def _crear_encabezado(self) -> None:
         encabezado = ctk.CTkFrame(self.fondo_principal, corner_radius=12, fg_color="#171a20")
         encabezado.pack(fill="x", padx=12, pady=(12, 8))
 
@@ -53,6 +60,7 @@ class AplicacionAutoFileOrganizer(ctk.CTk):
         )
         subtitulo.pack(anchor="w", padx=16, pady=(0, 14))
 
+    def _crear_panel_estado(self) -> None:
         self.panel_estado = ctk.CTkFrame(self.fondo_principal, corner_radius=12, fg_color="#171a20")
         self.panel_estado.pack(fill="x", padx=12, pady=(0, 8))
 
@@ -80,6 +88,7 @@ class AplicacionAutoFileOrganizer(ctk.CTk):
         )
         self.etiqueta_carpeta.pack(anchor="w", padx=14, pady=(0, 12))
 
+    def _crear_controles_principales(self) -> None:
         controles = ctk.CTkFrame(self.fondo_principal, corner_radius=12, fg_color="#171a20")
         controles.pack(fill="x", padx=12, pady=(0, 8))
 
@@ -142,6 +151,7 @@ class AplicacionAutoFileOrganizer(ctk.CTk):
         )
         self.boton_detener.pack(side="left", padx=(0, 10), fill="x", expand=True)
 
+    def _crear_panel_contenido(self) -> None:
         contenido = ctk.CTkFrame(self.fondo_principal, corner_radius=12, fg_color="#171a20")
         contenido.pack(fill="both", expand=True, padx=12, pady=(0, 10))
 
@@ -149,6 +159,15 @@ class AplicacionAutoFileOrganizer(ctk.CTk):
         explorador_panel.pack(side="left", fill="both", expand=True, padx=(12, 8), pady=12)
         explorador_panel.configure(width=560)
 
+        self._crear_panel_arbol(explorador_panel)
+
+        editor_panel = ctk.CTkFrame(contenido, corner_radius=12, fg_color="#0f1115")
+        editor_panel.pack(side="right", fill="y", expand=False, padx=(8, 12), pady=12)
+        editor_panel.configure(width=300)
+
+        self._crear_panel_renombrado(editor_panel)
+
+    def _crear_panel_arbol(self, explorador_panel: ctk.CTkFrame) -> None:
         titulo_explorador = ctk.CTkLabel(
             explorador_panel,
             text="Archivos y carpetas",
@@ -216,18 +235,17 @@ class AplicacionAutoFileOrganizer(ctk.CTk):
         self.arbol.heading("tipo", text="Tipo")
         self.arbol.column("tipo", width=75, minwidth=70, stretch=False, anchor="center")
         self.arbol.column("ruta", width=0, stretch=False)
+
         barra_arbol = ttk.Scrollbar(self.frame_arbol, orient="vertical", command=self.arbol.yview)
         self.arbol.configure(yscrollcommand=barra_arbol.set)
         self.arbol.pack(side="left", fill="both", expand=True)
         barra_arbol.pack(side="right", fill="y")
+
         self.arbol.bind("<<TreeviewOpen>>", self._al_expandir_nodo)
         self.arbol.bind("<<TreeviewSelect>>", self._al_seleccionar_elemento)
         self.arbol.bind("<Double-1>", self._al_doble_click)
 
-        editor_panel = ctk.CTkFrame(contenido, corner_radius=12, fg_color="#0f1115")
-        editor_panel.pack(side="right", fill="y", expand=False, padx=(8, 12), pady=12)
-        editor_panel.configure(width=300)
-
+    def _crear_panel_renombrado(self, editor_panel: ctk.CTkFrame) -> None:
         self.etiqueta_archivo = ctk.CTkLabel(
             editor_panel,
             text="Ningun archivo seleccionado",
@@ -286,6 +304,7 @@ class AplicacionAutoFileOrganizer(ctk.CTk):
         )
         self.etiqueta_ayuda.pack(anchor="w", padx=14, pady=(0, 14))
 
+    def _crear_barra_estado(self) -> None:
         barra_estado = ctk.CTkFrame(self.fondo_principal, corner_radius=10, fg_color="#171a20")
         barra_estado.pack(fill="x", padx=12, pady=(0, 12))
 
@@ -371,27 +390,27 @@ class AplicacionAutoFileOrganizer(ctk.CTk):
         self._mostrar_detalle(None)
 
         if self.carpeta_actual is None or not self.carpeta_actual.exists():
-            self.etiqueta_actividad.configure(text="Selecciona una carpeta para comenzar")
+            self._actualizar_actividad("Selecciona una carpeta para comenzar")
             return
 
         self._cargar_raiz()
-        self.etiqueta_actividad.configure(text=f"Explorando: {self.carpeta_actual}")
+        self._actualizar_actividad(f"Explorando: {self.carpeta_actual}")
 
     def _cargar_raiz(self) -> None:
         if self.carpeta_actual is None:
             return
 
-        self.nodo_raiz = self.arbol.insert(
+        nodo_raiz = self.arbol.insert(
             "",
             "end",
             text=self.carpeta_actual.name,
             open=True,
             values=(str(self.carpeta_actual), "Carpeta"),
         )
-        self._cargar_nodos(self.nodo_raiz, self.carpeta_actual)
-        self.arbol.item(self.nodo_raiz, open=True)
-        self.arbol.selection_set(self.nodo_raiz)
-        self.arbol.focus(self.nodo_raiz)
+        self._cargar_nodos(nodo_raiz, self.carpeta_actual)
+        self.arbol.item(nodo_raiz, open=True)
+        self.arbol.selection_set(nodo_raiz)
+        self.arbol.focus(nodo_raiz)
 
     def _cargar_nodos(self, nodo_padre: str, ruta_padre: Path) -> None:
         for ruta_hija in self._obtener_elementos(ruta_padre):
@@ -464,19 +483,19 @@ class AplicacionAutoFileOrganizer(ctk.CTk):
         if not seleccion:
             return
 
-        ruta = self._ruta_desde_nodo(seleccion[0])
+        nodo = seleccion[0]
+        ruta = self._ruta_desde_nodo(nodo)
         if ruta is None:
             return
 
         if ruta.is_dir():
-            estado = self.arbol.item(seleccion[0], "open")
-            self.arbol.item(seleccion[0], open=not estado)
+            estado = self.arbol.item(nodo, "open")
+            self.arbol.item(nodo, open=not estado)
             if not estado:
                 self._al_expandir_nodo()
             return
 
-        self.ruta_seleccionada = ruta
-        self._mostrar_detalle(ruta)
+        self._al_seleccionar_elemento()
 
     def _ruta_desde_nodo(self, nodo: str) -> Path | None:
         valores = self.arbol.item(nodo, "values")
@@ -493,10 +512,7 @@ class AplicacionAutoFileOrganizer(ctk.CTk):
         if ruta is None:
             self.etiqueta_archivo.configure(text="Ningun archivo seleccionado")
             self.etiqueta_tipo.configure(text="Selecciona un archivo o carpeta para renombrarlo")
-            self.entrada_nombre.configure(state="normal")
-            self.entrada_nombre.delete(0, "end")
-            self.entrada_nombre.insert(0, "")
-            self.entrada_nombre.configure(state="disabled")
+            self._configurar_entrada_nombre("", habilitada=False)
             return
 
         if ruta.is_dir():
@@ -506,16 +522,21 @@ class AplicacionAutoFileOrganizer(ctk.CTk):
             self.etiqueta_archivo.configure(text=f"Archivo: {ruta.name}")
             self.etiqueta_tipo.configure(text=f"Ruta completa: {ruta}")
 
+        self._configurar_entrada_nombre(ruta.name, habilitada=True)
+
+    def _configurar_entrada_nombre(self, valor: str, habilitada: bool) -> None:
         self.entrada_nombre.configure(state="normal")
         self.entrada_nombre.delete(0, "end")
-        self.entrada_nombre.insert(0, ruta.name)
+        self.entrada_nombre.insert(0, valor)
+        if not habilitada:
+            self.entrada_nombre.configure(state="disabled")
 
     def _renombrar_elemento(self) -> None:
         if self.ruta_seleccionada is None:
             messagebox.showwarning("Auto File Organizer", "Selecciona un archivo o carpeta para renombrar")
             return
 
-        if self.carpeta_actual is not None and self.ruta_seleccionada.resolve() == self.carpeta_actual.resolve():
+        if self._es_raiz_seleccionada():
             messagebox.showwarning("Auto File Organizer", "No se puede renombrar la carpeta raiz desde esta vista")
             return
 
@@ -545,6 +566,11 @@ class AplicacionAutoFileOrganizer(ctk.CTk):
         self.ruta_seleccionada = destino
         self._actualizar_actividad(f"Renombrado: {destino.name}")
         self._recargar_explorador()
+
+    def _es_raiz_seleccionada(self) -> bool:
+        if self.carpeta_actual is None or self.ruta_seleccionada is None:
+            return False
+        return self.ruta_seleccionada.resolve() == self.carpeta_actual.resolve()
 
     def _actualizar_estado(self, activo: bool) -> None:
         if activo:
