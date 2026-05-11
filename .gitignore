@@ -6,4 +6,5 @@ env/
 build/
 dist/
 *.spec
+.gitignore
 .auto_file_organizer/
