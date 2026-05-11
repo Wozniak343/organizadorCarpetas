@@ -22,3 +22,9 @@
 11:57:29 AM: INFO [app.py:248] Monitoreo detenido
 12:00:57 PM: INFO [app.py:521] Monitoreo iniciado
 12:02:39 PM: INFO [app.py:521] Monitoreo detenido
+12:31:44 PM: INFO [app.py:521] Monitoreo iniciado
+12:31:48 PM: INFO [app.py:521] Monitoreo detenido
+12:35:40 PM: INFO [app.py:498] Monitoreo iniciado
+12:35:45 PM: INFO [app.py:498] Monitoreo detenido
+12:41:33 PM: INFO [app.py:568] Monitoreo iniciado
+12:41:39 PM: INFO [app.py:568] Monitoreo detenido
