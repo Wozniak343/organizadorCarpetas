@@ -1,0 +1,24 @@
+11:56:20 AM: INFO [<string>:1] Prueba de logging
+11:57:11 AM: INFO [app.py:248] Carpeta seleccionada: C:\Users\Oscar Cuadros\Desktop\ㅤ
+11:57:14 AM: INFO [app.py:248] Monitoreo iniciado
+11:57:14 AM: INFO [app.py:248] Monitoreo activo
+11:57:17 AM: INFO [app.py:248] Archivo movido: Atlas Toolbox.lnk -> Otros
+11:57:17 AM: INFO [app.py:248] Archivo movido: Atlas.lnk -> Otros
+11:57:17 AM: INFO [app.py:248] Archivo movido: certificado de vigencia y antecedentes disciplinarios.pdf -> PDF
+11:57:17 AM: INFO [app.py:248] Archivo movido: Certificado Python.pdf -> PDF
+11:57:17 AM: INFO [app.py:248] Archivo movido: Curriculum Oscar Cuadros.pdf -> PDF
+11:57:17 AM: INFO [app.py:248] Archivo movido: desktop.ini -> Otros
+11:57:18 AM: INFO [app.py:248] Archivo movido: Estado_Cuenta_1604457226.pdf -> PDF
+11:57:18 AM: INFO [app.py:248] Archivo movido: Firma.png -> Imagenes
+11:57:18 AM: INFO [app.py:248] Archivo movido: Foto.png -> Imagenes
+11:57:18 AM: INFO [app.py:248] Archivo movido: Fotos.7z -> Comprimidos
+11:57:18 AM: INFO [app.py:248] Archivo movido: MiFoto.png -> Imagenes
+11:57:18 AM: INFO [app.py:248] Archivo movido: nvidiaProfileInspector.exe -> Ejecutables
+11:57:18 AM: INFO [app.py:248] Archivo movido: Reference.xml -> Otros
+11:57:19 AM: INFO [app.py:248] Archivo movido: regulation.bin -> Otros
+11:57:19 AM: INFO [app.py:248] Archivo movido: UC-d656d7dd-4c52-4bba-a44e-b2b09b1f04ea.pdf -> PDF
+11:57:19 AM: INFO [app.py:248] Archivo movido: xd.jpg -> Imagenes
+11:57:19 AM: INFO [app.py:248] Organizacion manual completada: 16 archivo(s)
+11:57:29 AM: INFO [app.py:248] Monitoreo detenido
+12:00:57 PM: INFO [app.py:521] Monitoreo iniciado
+12:02:39 PM: INFO [app.py:521] Monitoreo detenido
